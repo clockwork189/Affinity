@@ -119,7 +119,7 @@ var AffineTransformation = (function () {
 		return $M(this.transformation_matrix());
 	};
 
-	AffineTransformation.prototype.inverse_transformation_matrix = function() {
+	AffineTransformation.prototype.inverseTransformationMatrix = function() {
 		var arr, el;
 		arr = (function() {
 		var _i, _len, _ref, _results;
@@ -136,37 +136,35 @@ var AffineTransformation = (function () {
 	};
 
 	AffineTransformation.prototype.transform = function(pt) {
-		return this._transform_with_matrix(pt, this.transformation_matrix_m());
+		return this.transformWithMatrix(pt, this.transformation_matrix_m());
 	};
 
 	// Go from result to parent point
-	AffineTransformation.prototype.inversely_transform = function(pt) {
-		return this._transform_with_matrix(pt, this.inverse_transformation_matrix());
+	AffineTransformation.prototype.inverseTransform = function(pt) {
+		return this.transformWithMatrix(pt, this.inverseTransformationMatrix());
 	};
 
-	AffineTransformation.prototype._transform_with_matrix = function(pt, matrix) {
-		var i, orig, res;
+	AffineTransformation.prototype.transformWithMatrix = function(pt, matrix) {
+		var i;
 		pt = pt.slice(0, 2);
 		pt.push(1);
-		orig = $M((function() {
-			var _i, _len, _results;
-			_results = [];
-			for (_i = 0, _len = pt.length; _i < _len; _i++) {
+		var orig = $M((function() {
+			var results = [];
+			for (var _i = 0, _len = pt.length; _i < _len; _i++) {
 				i = pt[_i];
-				_results.push([i]);
+				results.push([i]);
 			}
-			return _results;
+			return results;
 		})());
-		res = matrix.x(orig);
+		var res = matrix.x(orig);
 		return ((function() {
-			var _i, _len, _ref, _results;
-			_ref = res.elements;
-			_results = [];
-			for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-				i = _ref[_i];
-				_results.push(i[0]);
+			var ref = res.elements,
+			results = [];
+			for (var _i = 0, _len = ref.length; _i < _len; _i++) {
+				i = ref[_i];
+				results.push(i[0]);
 			}
-			return _results;
+			return results;
 		})()).slice(0, 2);
 	};
 

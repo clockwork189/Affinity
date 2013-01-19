@@ -20,14 +20,14 @@
     </pre>
 </p>
 <p>
-    Another use case for this library is when you want to go from resulting points to original points. In this case we can use the <code>inversely_transform([x,y]);</code> call.<br/>
+    Another use case for this library is when you want to go from resulting points to original points. In this case we can use the <code>inverseTransform([x,y]);</code> call.<br/>
     <strong>Example:</strong>
     <pre>
         var point = [5,9];
         var from_points = [[1,1],[1,2],[2,2],[2,1]];
         var to_points = [[4,4],[6,6],[8,4],[6,2]];
         var transform_matrix = new AffineTransformation(from_points, to_points);
-        var result = transform_matrix.inversely_transform(point);
+        var result = transform_matrix.inverseTransform(point);
         console.log("The point on the resultant matrix is:", result); 
         // Output: The point on the resultant matrix is: [5.551115123125783e-16, 2.5000000000000018]
     </pre>
