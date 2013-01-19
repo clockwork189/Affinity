@@ -120,16 +120,15 @@ var AffineTransformation = (function () {
 	};
 
 	AffineTransformation.prototype.inverseTransformationMatrix = function() {
-		var arr, el;
-		arr = (function() {
-		var _i, _len, _ref, _results;
-			_ref = this.transformation_matrix_m().elements;
-			_results = [];
-			for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-				el = _ref[_i];
-				_results.push(el);
+		var el;
+		var arr = (function() {
+			var results = [];
+			var ref = this.transformation_matrix_m().elements;
+			for (var i = 0, len = ref.length; i < len; i++) {
+				el = ref[i];
+				results.push(el);
 			}
-			return _results;
+			return results;
 		}).call(this);
 		arr.push([0, 0, 1]);
 		return $M(arr).inverse();
