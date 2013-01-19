@@ -41,9 +41,8 @@ var AffineTransformation = (function () {
 	}
 
 	AffineTransformation.prototype.gaussJordan = function(m) {
-		var maxrow;
-
-		var eps = 1.0 / Math.pow(10, 10),
+		var maxrow,
+		eps = 1.0 / Math.pow(10, 10),
 		h = m.length,
 		w = m[0].length;
 
@@ -120,10 +119,10 @@ var AffineTransformation = (function () {
 	};
 
 	AffineTransformation.prototype.inverseTransformationMatrix = function() {
-		var el;
-		var arr = (function() {
-			var results = [];
-			var ref = this.transformation_matrix_m().elements;
+		var el,
+		arr = (function() {
+			var results = [],
+			ref = this.transformation_matrix_m().elements;
 			for (var i = 0, len = ref.length; i < len; i++) {
 				el = ref[i];
 				results.push(el);
@@ -147,6 +146,7 @@ var AffineTransformation = (function () {
 		var i;
 		pt = pt.slice(0, 2);
 		pt.push(1);
+
 		var orig = $M((function() {
 			var results = [];
 			for (var _i = 0, _len = pt.length; _i < _len; _i++) {
@@ -155,7 +155,9 @@ var AffineTransformation = (function () {
 			}
 			return results;
 		})());
+
 		var res = matrix.x(orig);
+		
 		return ((function() {
 			var ref = res.elements,
 			results = [];
@@ -168,8 +170,7 @@ var AffineTransformation = (function () {
 	};
 
 	AffineTransformation.prototype.addHelpPoint = function() {
-		var help;
-		help = [];
+		var help = [];
 		help[0] = [-1 * (this.from[1][1] - this.from[0][1]) + this.from[0][1], this.from[1][0] - this.from[0][0] + this.from[0][0]];
 		help[1] = [-1 * (this.to[1][1] - this.to[0][1]) + this.to[0][1], this.to[1][0] - this.to[0][0] + this.to[0][0]];
 		this.from.push(help[0]);
