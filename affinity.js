@@ -30,87 +30,78 @@ var AffineTransformation = (function () {
 		this.buildHelpMatrices();
 		
 		if (!this.gaussJordan(this.m)) {
+			// Co-planar points. We add a help point and try again.
 			this.addHelpPoint();
 			this.buildHelpMatrices();
 			if (!this.gaussJordan(this.m)) {
+				// Adding help point doesnt work :(
 				throw "sorry, can't help you";
 			}
 		}
 	}
 
-	AffineTransformation.prototype.gaussJordan = function(m, eps) {
-		var c, maxrow, x, y, y2, i, _j, _k, _l, _m, _n, _o, _p, _ref1, _ref2, _ref3, _ref4, _ref5;
-		if (eps === null) {
-			eps = 1.0 / Math.pow(10, 10);
-		}
-	
-		var ref = [m.length, m[0].length], h = ref[0], w = ref[1];
+	AffineTransformation.prototype.gaussJordan = function(m) {
+		var maxrow;
 
-		for (y = _i = 0; h >= 0 ? _i < h : _i > h; y = 0 <= h ? ++_i : --_i) {
+		var eps = 1.0 / Math.pow(10, 10),
+		h = m.length,
+		w = m[0].length;
+
+		for (var y = 0 , i = y; h >= 0 ? i < h : i > h; y = 0 <= h ? ++i : --i) {
 			maxrow = y;
 
-			for (y2 = _j = _ref1 = y + 1; _ref1 <= h ? _j < h : _j > h; y2 = _ref1 <= h ? ++_j : --_j) {
+			for (var y2 = y + 1, j = y2, ref1 =y2; ref1 <= h ? j < h : j > h; y2 = ref1 <= h ? ++j : --j) {
 				if (Math.abs(m[y2][y]) > Math.abs(m[maxrow][y])) {
 					maxrow = y2;
 				}
 			}
-			_ref2 = [m[maxrow], m[y]], m[y] = _ref2[0], m[maxrow] = _ref2[1];
+
+			var ref2 = [m[maxrow], m[y]];
+			m[y] = ref2[0];
+			m[maxrow] = ref2[1];
 
 			if (Math.abs(m[y][y]) <= eps) {
 				return false;
 			}
 			
-			for (y2 = _k = _ref3 = y + 1; _ref3 <= h ? _k < h : _k > h; y2 = _ref3 <= h ? ++_k : --_k) {
-				c = m[y2][y] / m[y][y];
-				for (x = _l = y; y <= w ? _l < w : _l > w; x = y <= w ? ++_l : --_l) {
+			for (var y2 = y + 1, k = y2, ref3 = y2; ref3 <= h ? k < h : k > h; y2 = ref3 <= h ? ++k : --k) {
+				var c = m[y2][y] / m[y][y];
+				for (var x = y, l = x; y <= w ? l < w : l > w; x = y <= w ? ++l : --l) {
 					m[y2][x] -= m[y][x] * c;
 				}
 			}
 		}
 
-		for (y = _m = _ref4 = h - 1; _ref4 <= 0 ? _m <= 0 : _m >= 0; y = _ref4 <= 0 ? ++_m : --_m) {
-			c = m[y][y];
-			for (y2 = _n = 0; 0 <= y ? _n < y : _n > y; y2 = 0 <= y ? ++_n : --_n) {
-				for (x = _o = _ref5 = w - 1; _ref5 <= y ? _o <= y : _o >= y; x = _ref5 <= y ? ++_o : --_o) {
+		for (var y = h - 1, q = y, ref4 = y; ref4 <= 0 ? q <= 0 : q >= 0; y = ref4 <= 0 ? ++q : --q) {
+			var c = m[y][y];
+			for (var y2 = 0, n = y2; y >= 0 ? n < y : n > y; y2 = 0 <= y ? ++n : --n) {
+				for (var x = w -1, o = x, ref5 = x; ref5 <= y ? o <= y : o >= y; x = ref5 <= y ? ++o : --o) {
 					m[y2][x] -= m[y][x] * m[y2][y] / c;
 				}
 			}
 	
 			m[y][y] /= c;
 			
-			for (x = _p = h; h <= w ? _p < w : _p > w; x = h <= w ? ++_p : --_p) {
+			for (var x = h, p = x; h <= w ? p < w : p > w; x = h <= w ? ++p : --p) {
 				m[y][x] /= c;
 			}
 		}
 		return true;
 	};
 
-	AffineTransformation.prototype.to_string = function() {
-		var i, j, res, str, _i, _j, _ref, _ref1;
-		res = '';
-		for (j = _i = 0, _ref = this.dimensions; 0 <= _ref ? _i < _ref : _i > _ref; j = 0 <= _ref ? ++_i : --_i) {
-			str = "x" + j;
-			for (i = _j = 0, _ref1 = this.dimensions; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; i = 0 <= _ref1 ? ++_j : --_j) {
-				str += "x" + i + " * " + this.m[i][j + this.dimensions + 1];
-			}
-			str += "" + this.m[this.dimensions][j + this.dimensions + 1];
-			res += str + "\n";
-		}
-		return res;
-	};
-
 	AffineTransformation.prototype.transformation_matrix = function() {
-		var i, j, _i, _j, _ref, _ref1;
 		if (this.matrix) {
 			return this.matrix;
 		}
+
 		this.matrix = [];
-		for (j = _i = 0, _ref = this.dimensions; 0 <= _ref ? _i < _ref : _i > _ref; j = 0 <= _ref ? ++_i : --_i) {
-			this.matrix[j] = [];
-			for (i = _j = 0, _ref1 = this.dimensions; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; i = 0 <= _ref1 ? ++_j : --_j) {
-				this.matrix[j].push(parseFloat(this.m[i][j + this.dimensions + 1]));
+		
+		for (var i = 0, j = i, ref = this.dimensions; ref >= 0 ? j < ref : j > ref; i = 0 <= ref ? ++j : --j) {
+			this.matrix[i] = [];
+			for (var n = 0, m = n, ref1 = this.dimensions; 0 <= ref1 ? m < ref1 : m > ref1; n = 0 <= ref1 ? ++m : --m) {
+				this.matrix[i].push(parseFloat(this.m[n][i + this.dimensions + 1]));
 			}
-			this.matrix[j].push(parseFloat(this.m[this.dimensions][j + this.dimensions + 1]));
+			this.matrix[i].push(parseFloat(this.m[this.dimensions][i + this.dimensions + 1]));
 		}
 		return this.matrix;
 	};
@@ -124,6 +115,7 @@ var AffineTransformation = (function () {
 	};
 
 	AffineTransformation.prototype.transformation_matrix_m = function() {
+		// Using Sylvester.js to Create a Matrix
 		return $M(this.transformation_matrix());
 	};
 
@@ -143,21 +135,11 @@ var AffineTransformation = (function () {
 		return $M(arr).inverse();
 	};
 
-	AffineTransformation.prototype.to_svg_transform = function() {
-		var i, j, res, _i, _j, _ref, _ref1;
-		res = [];
-		for (i = _i = 0, _ref = this.dimensions; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
-			for (j = _j = 0, _ref1 = this.dimensions; 0 <= _ref1 ? _j < _ref1 : _j > _ref1; j = 0 <= _ref1 ? ++_j : --_j) {
-				res.push(this.transformation_matrix()[j][i]);
-			}
-		}
-		return "matrix(" + (res.join(', ')) + ")";
-	};
-
 	AffineTransformation.prototype.transform = function(pt) {
 		return this._transform_with_matrix(pt, this.transformation_matrix_m());
 	};
 
+	// Go from result to parent point
 	AffineTransformation.prototype.inversely_transform = function(pt) {
 		return this._transform_with_matrix(pt, this.inverse_transformation_matrix());
 	};
