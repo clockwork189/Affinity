@@ -20,7 +20,7 @@
     </pre>
 </p>
 <p>
-    Another use case for this library is when you want to go from resulting points to original points. In this case we can use the <code>inversely_transform([x,y]);</code> call.
+    Another use case for this library is when you want to go from resulting points to original points. In this case we can use the <code>inversely_transform([x,y]);</code> call.<br/>
     <strong>Example:</strong>
     <pre>
         var point = [5,9];
