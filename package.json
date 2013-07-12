@@ -1,0 +1,22 @@
+{
+  "author": "Charles Desouza",
+  "contributors": ["Leander Lee <me@leander.ca> (leander.ca)"],
+  "name": "Affinity",
+  "description": "Affine fit transform in JS",
+  "version": "1.0.0",
+  "homepage": "http://docs.mappedin.com",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:clockwork189/Affinity.git"
+  },
+  "scripts": {
+    "test": "mocha -R nyan test.js"
+  },
+  "main": "./lib/mappedin.js",
+  "dependencies": {
+    "mocha": "latest"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {}
+}
