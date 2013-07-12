@@ -1,4 +1,4 @@
-# Affinity.js: Affine Fit Transform in Javascript
+# Affinity.js: Affine Fit Transform in JS
 
 This library provides an affine fit transformation for a given point by taking in a set of "to and from coordinates". This is based on a [Research Paper by Helmuth Spath](http://hrcak.srce.hr/file/1425), which was adapted to [Python by Jarno Elonen](http://elonen.iki.fi/code/misc-notes/affine-fit/).
 
