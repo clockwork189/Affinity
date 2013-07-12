@@ -1,6 +1,9 @@
 {
   "author": "Charles Desouza",
-  "contributors": ["Leander Lee <me@leander.ca> (leander.ca)"],
+  "contributors": [
+    "Charles Desouza",
+    "Leander Lee <me@leander.ca> (leander.ca)"
+  ],
   "name": "Affinity",
   "description": "Affine fit transform in JS",
   "version": "1.0.0",
