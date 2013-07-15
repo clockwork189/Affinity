@@ -17,7 +17,8 @@
   },
   "main": "./affinity.js",
   "dependencies": {
-    "mocha": "latest"
+    "mocha": "latest",
+    "deep-equal": "latest"
   },
   "devDependencies": {},
   "optionalDependencies": {},
