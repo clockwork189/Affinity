@@ -1,11 +1,10 @@
-var numeric = require('./numeric');
+if (!numeric) var numeric = require('./numeric');
 
-function AffineTransformation (kwargs) {
+function AffineTransformation (from, to) {
 	var self = {};
 
-	kwargs = kwargs || {};
-	self.from = kwargs.from || [];
-	self.to = kwargs.to || [];
+	self.from = from || [];
+	self.to = to || [];
 
 	var A = [];
 	var B = [];
@@ -14,21 +13,12 @@ function AffineTransformation (kwargs) {
 	var offsetB = [];
 
 	var init = function () {
-		var dim = self.from.length ? self.from[0].length : 0;
-		A = new Array(dim);
-		B = new Array(dim);
-		offsetA = self.from.length > 2 ? self.from.pop() : new Array(dim);
-		offsetB = self.to.length > 2 ? self.to.pop() : new Array(dim);
-		for (var i = 0; i < self.from.length; i++) {
-			for (var d = 0; d < dim; d++) {
-				A[d] = A[d] || [];
-				B[d] = B[d] || [];
-				offsetA[d] = offsetA[d] || 0;
-				offsetB[d] = offsetB[d] || 0;
-				A[d][i] = self.from[i][d] - offsetA[d];
-				B[d][i] = self.to[i][d] - offsetB[d];
-			}
-		}
+		offsetA = self.from.length > 2 ? self.from.pop() : new Array(2);
+		offsetB = self.to.length > 2 ? self.to.pop() : new Array(2);
+		A = [
+			[self.from[0][0] - offsetA[0], self.from[1][0] - offsetA[1]],
+			[self.from[0][1] - offsetA[1], self.from[1][1] - offsetA[1]],
+		];
 		T = numeric.inv(A);
 		return T;
 	};
