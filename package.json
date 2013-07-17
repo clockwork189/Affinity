@@ -1,0 +1,26 @@
+{
+  "author": "Charles Desouza",
+  "contributors": [
+    "Charles Desouza",
+    "Leander Lee <me@leander.ca> (leander.ca)"
+  ],
+  "name": "Affinity",
+  "description": "Affine fit transform in JS",
+  "version": "1.0.0",
+  "homepage": "https://github.com/clockwork189/Affinity",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:clockwork189/Affinity.git"
+  },
+  "scripts": {
+    "test": "mocha -R nyan test.js"
+  },
+  "main": "./affinity.js",
+  "dependencies": {
+    "mocha": "latest",
+    "deep-equal": "latest"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {}
+}
